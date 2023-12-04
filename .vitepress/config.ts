@@ -2,14 +2,13 @@ import { defineConfig } from 'vitepress'
 import { telegram, gitflic } from './icons'
 import * as seo from './../_data/seo'
 import { normalize } from 'vitepress/dist/client/shared'
+import type MarkdownIt from 'markdown-it'
 import kbd from 'markdown-it-kbd'
 import taskLists from 'markdown-it-task-lists'
 import { rewrites } from './paths'
-import * as config_data from './config_data'
 
 export const META_DESCRIPTION = 'Свободная WIKI по операционной системе ALT Regular Gnome'
 
-// https://vitepress.dev/reference/site-config
 export default defineConfig({
   vite: { 
     ssr: { 
@@ -18,12 +17,33 @@ export default defineConfig({
       ], 
     }, 
   }, 
-  lang: 'ru-RU',
-  srcDir: './docs',
   title: seo.SITE_TITLE,
   titleTemplate: ':title' + seo.SITE_TITLE_SEPARATOR + seo.SITE_TITLE,
   description: META_DESCRIPTION,
-  head: config_data.HEAD,
+  head: [
+    ['link', { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'}],
+    ['link', { rel: 'icon', type: 'image/png', href: '/favicon.png' }],
+    ['meta', { name: 'theme-color', content: '#62a0ea' }],
+    ['meta', { name: 'yandex-verification', content: '6ef3a36c3d09e43e' }],
+    [
+      'script',
+      {},
+      `(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+      (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+   
+      ym(95081395, "init", {
+           clickmap:true,
+           trackLinks:true,
+           accurateTrackBounce:true,
+           webvisor:true
+      });`,
+    ],
+  ],
+  lang: 'ru-RU',
+  srcDir: './docs',
   sitemap: {
     hostname: 'https://alt-gnome.wiki'
   },
@@ -53,7 +73,6 @@ export default defineConfig({
         }
       }
     },
-    // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Главная', link: '/' },
       { text: 'Документация', link: 'wiki' },
@@ -64,15 +83,6 @@ export default defineConfig({
           { text: 'Возможности VitePress', link: 'vitepress' }
         ]
       }
-    ],
-    socialLinks: [
-      {
-        icon: {
-          svg: telegram
-        },
-        link: 'https://t.me/alt_gnome'
-      },
-      { icon: 'github', link: 'https://github.com/OlegShchavelev/ALTRegularGnomeWiki' }
     ],
     sidebar: [
       {
@@ -88,6 +98,7 @@ export default defineConfig({
               { text: 'Сartridges', link: '/cartridges' },
               { text: 'Codium', link: '/codium' },
               { text: 'Console', link: '/console' },
+              { text: 'Discord', link: '/discord' },
               { text: 'Drawing', link: '/drawing' },
               { text: 'Docker', link: '/docker' },
               { text: 'Eog', link: '/eog' },
@@ -105,12 +116,14 @@ export default defineConfig({
               { text: 'Libreoffice', link: '/libreoffice' },
               { text: 'Loupe', link: '/loupe' },
               { text: 'Мой офис', link: '/my-office' },
+              { text: 'Мpich', link: '/mpich' },
               { text: 'Neofetch', link: '/neofetch' },
               { text: 'Neovim', link: '/neovim' },
               { text: 'Nodejs', link: '/nodejs' },
               { text: 'Nvidia', link: '/nvidia' },
               { text: 'OBS Studio', link: '/obs-studio' },
               { text: 'Opera', link: '/opera' },
+              { text: 'Skype', link: '/skype' },
               { text: 'Steam', link: '/steam' },
               { text: 'Telegram', link: '/telegram' },
               { text: 'Thunderbird', link: 'thunderbird'},
@@ -121,8 +134,8 @@ export default defineConfig({
               { text: 'XLSCLIENTS', link: '/xlsclients' },
               { text: 'Xmind', link: '/xmind'},
               { text: 'Яндекс Браузер', link: '/yandex-browser' },
+              { text: 'Zoom', link: '/zoom' },
               { text: 'Zsh', link: '/zsh' },
-    
             ],
             collapsed: true
           },
@@ -203,12 +216,21 @@ export default defineConfig({
       {
         text: 'Быстрые ссылки',
         items: [
-          { text: 'APT', link: '/system/apt-get' },
-          { text: 'Сизиф', link: '/system/sisyphus' },
-          { text: 'EPM', link: '/system/epm' },
-          { text: 'Flatpak', link: '/apps/flatpak' }
+          { text: 'APT', link: '/apt-get' },
+          { text: 'Сизиф', link: '/sisyphus' },
+          { text: 'EPM', link: '/epm' },
+          { text: 'Flatpak', link: '/flatpak' }
         ]
       }
+    ],
+    socialLinks: [
+      {
+        icon: {
+          svg: telegram
+        },
+        link: 'https://t.me/alt_gnome'
+      },
+      { icon: 'github', link: 'https://github.com/OlegShchavelev/ALTRegularGnomeWiki' }
     ],
     editLink: {
       pattern: 'https://github.com/OlegShchavelev/ALTRegularGnomeWiki/edit/main/docs/:path',
@@ -223,11 +245,6 @@ export default defineConfig({
     },
     returnToTopLabel: 'Наверх',
     sidebarMenuLabel: 'Меню',
-    sponsor: {
-      message:
-        'Данный сервис является Open-Source проектом и его поддержка и развитие зависит от пожертвований.',
-      linkText: 'Поддержать проект!'
-    },
     docFooter: {
       prev: 'Предыдущая страница',
       next: 'Следующая страница'
@@ -256,12 +273,12 @@ export default defineConfig({
       infoLabel: 'Информация',
       detailsLabel: 'Подробнее',
     },
-    config(md) {
+    config: (md) => {
       md.use(kbd);
       md.use(taskLists);
     }
   },
-  transformPageData(pageData) {
+  transformPageData: (pageData: normalize) => {
     const title = pageData.title + seo.SITE_TITLE_SEPARATOR + seo.SITE_TITLE
     const type = 'website'
     const locale = 'ru_RU'

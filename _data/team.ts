@@ -1,5 +1,8 @@
 import {
-    gitflic
+    telegram,
+    gitflic,
+    gitlab,
+    vk
   } from '../.vitepress/icons.js'
 
 export const members = [
@@ -84,5 +87,19 @@ export const members = [
         },
       ],
       sponsor: 'https://www.tinkoff.ru/cf/7L7liSQncEt'
+    },
+    {
+      avatar: 'https://avatars.githubusercontent.com/u/54739833?v=4',
+      name: 'Илья Женецкий',
+      title: 'Участник',
+      links: [
+        { icon: 'github', link: 'https://github.com/ilyazheprog' },
+        {
+          icon: {
+            svg: gitflic
+          },
+          link: 'https://gitflic.ru/user/ilyazheprog'
+        },
+      ]
     }
   ]
