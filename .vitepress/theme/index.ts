@@ -3,13 +3,15 @@ import { h } from 'vue'
 import { useRoute } from 'vitepress';
 import type { Theme } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
-import imageViewer from 'vitepress-plugin-image-viewer';
+import imageViewer from 'vitepress-plugin-image-viewer'
 import { 
   NolebaseEnhancedReadabilitiesMenu, 
   NolebaseEnhancedReadabilitiesScreenMenu,
 } from '@nolebase/vitepress-plugin-enhanced-readabilities'
 import type { Options } from '@nolebase/vitepress-plugin-enhanced-readabilities'
 import { InjectionKey } from '@nolebase/vitepress-plugin-enhanced-readabilities'
+import AGWHomeContents from './components/AGWHomeContents.vue'
+
 
 import './style.css'
 import './custom.css'
@@ -20,6 +22,7 @@ export default {
   extends: DefaultTheme,
   Layout: () => {
     return h(DefaultTheme.Layout, null, {
+      'home-features-after': () => h(AGWHomeContents),
       'nav-bar-content-after': () => h(NolebaseEnhancedReadabilitiesMenu), 
       'nav-screen-content-after': () => h(NolebaseEnhancedReadabilitiesScreenMenu), 
     })
