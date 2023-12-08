@@ -6,10 +6,13 @@ const prefix = "docs/"
 
 function getFilesWithMdExtension(paths) {
     const filesWithMdExtension = {};
-    const filesmd = [];
     for (const path of paths) {
         const files = fs.readdirSync(prefix + path);
-        for (const file of files) {
+        for (let file of files) {
+            if (path == "apps") {
+                // Временное решение, вдруг будут другие файлы, кроме index.md
+                file = file + '/index.md'
+            }
             filesWithMdExtension[path + '/' + file] = file;
         }
     }
